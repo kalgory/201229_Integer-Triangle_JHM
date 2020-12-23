@@ -1,23 +1,30 @@
 #include <iostream>
 #include <vector>
 
+
 using namespace std;
 
 vector<vector<int>> triangle_vec_vec;
 vector<vector<int>> memo_vec_vec;
-int height;
+int triangle_height;
 
-int calculate() {
-  return 0;
+int calculate(int x, int y) {
+  if (y == triangle_height - 1) {
+    return triangle_vec_vec[y][x];
+  }
+  if (memo_vec_vec[y][x] != 0) {
+    return memo_vec_vec[y][x];
+  }
+  memo_vec_vec[y][x] = triangle_vec_vec[y][x] + max(calculate(x, y + 1), calculate(x + 1, y + 1));
+  return memo_vec_vec[y][x];
 }
 
 int solution(vector<vector<int>> _triangle_vec_vec) {
-  height = _triangle_vec_vec.size();
+  triangle_height = _triangle_vec_vec.size();
   triangle_vec_vec = move(_triangle_vec_vec);
-  memo_vec_vec.resize(height, vector<int>(height, 0));
+  memo_vec_vec.resize(triangle_height, vector<int>(triangle_height, 0));
 
-  int answer = 0;
-  return answer;
+  return calculate(0, 0);;
 }
 
 int main() {
